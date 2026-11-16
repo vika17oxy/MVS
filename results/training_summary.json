@@ -1,0 +1,39 @@
+{
+  "template_matching": {
+    "train_time_s": 1.6
+  },
+  "hog_svm": {
+    "train_time_s": 704.8,
+    "model": "svm",
+    "features": "HOG",
+    "params": {
+      "C": 10,
+      "gamma": "scale",
+      "kernel": "rbf"
+    },
+    "cv_accuracy_mean": 0.9720680852844558,
+    "cv_accuracy_std": 0.004892919999780866
+  },
+  "hog_knn": {
+    "train_time_s": 92.5,
+    "model": "knn",
+    "features": "HOG",
+    "params": {
+      "n_neighbors": 9,
+      "weights": "distance"
+    },
+    "cv_accuracy_mean": 0.9521554760460039,
+    "cv_accuracy_std": 0.009037969941256788
+  },
+  "hog_rf": {
+    "train_time_s": 633.3,
+    "model": "rf",
+    "features": "HOG + color",
+    "params": {
+      "max_depth": null,
+      "n_estimators": 300
+    },
+    "cv_accuracy_mean": 0.967462808361057,
+    "cv_accuracy_std": 0.007427805641239327
+  }
+}

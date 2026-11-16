@@ -1,0 +1,394 @@
+{
+  "template_matching": {
+    "accuracy": 0.778921568627451,
+    "unknown_rate": 0.1,
+    "macro_precision": 0.8850507624949437,
+    "macro_recall": 0.8015517738434407,
+    "macro_f1": 0.8327399685803399,
+    "weighted_precision": 0.8801265496587616,
+    "weighted_recall": 0.778921568627451,
+    "weighted_f1": 0.8189963482047532,
+    "per_class": {
+      "1": {
+        "name": "Speed limit 30",
+        "precision": 0.6540284360189573,
+        "recall": 0.6133333333333333,
+        "f1": 0.6330275229357798,
+        "support": 450
+      },
+      "2": {
+        "name": "Speed limit 50",
+        "precision": 0.7877984084880637,
+        "recall": 0.66,
+        "f1": 0.7182587666263603,
+        "support": 450
+      },
+      "4": {
+        "name": "Speed limit 70",
+        "precision": 0.7191489361702128,
+        "recall": 0.8666666666666667,
+        "f1": 0.786046511627907,
+        "support": 390
+      },
+      "9": {
+        "name": "No passing",
+        "precision": 0.9846743295019157,
+        "recall": 0.8566666666666667,
+        "f1": 0.9162210338680927,
+        "support": 300
+      },
+      "11": {
+        "name": "Right-of-way next junction",
+        "precision": 0.9942196531791907,
+        "recall": 0.6370370370370371,
+        "f1": 0.7765237020316027,
+        "support": 270
+      },
+      "12": {
+        "name": "Priority road",
+        "precision": 0.9266666666666666,
+        "recall": 0.6619047619047619,
+        "f1": 0.7722222222222223,
+        "support": 420
+      },
+      "13": {
+        "name": "Yield",
+        "precision": 0.9844236760124611,
+        "recall": 0.7022222222222222,
+        "f1": 0.8197146562905318,
+        "support": 450
+      },
+      "14": {
+        "name": "Stop",
+        "precision": 0.6694915254237288,
+        "recall": 0.8777777777777778,
+        "f1": 0.7596153846153846,
+        "support": 180
+      },
+      "17": {
+        "name": "No entry",
+        "precision": 0.916030534351145,
+        "recall": 1.0,
+        "f1": 0.9561752988047809,
+        "support": 240
+      },
+      "25": {
+        "name": "Road work",
+        "precision": 0.9841269841269841,
+        "recall": 0.8266666666666667,
+        "f1": 0.8985507246376812,
+        "support": 300
+      },
+      "35": {
+        "name": "Ahead only",
+        "precision": 1.0,
+        "recall": 0.9958333333333333,
+        "f1": 0.9979123173277662,
+        "support": 240
+      },
+      "38": {
+        "name": "Keep right",
+        "precision": 1.0,
+        "recall": 0.9205128205128205,
+        "f1": 0.9586114819759679,
+        "support": 390
+      }
+    },
+    "accuracy_without_threshold": 0.8002450980392157,
+    "inference_ms_per_image": 1.714771999977529
+  },
+  "hog_svm": {
+    "accuracy": 0.9735294117647059,
+    "unknown_rate": 0.0,
+    "macro_precision": 0.9780877786160794,
+    "macro_recall": 0.9753733380816715,
+    "macro_f1": 0.9764316831157017,
+    "weighted_precision": 0.9745460408031098,
+    "weighted_recall": 0.9735294117647059,
+    "weighted_f1": 0.9736933221225708,
+    "per_class": {
+      "1": {
+        "name": "Speed limit 30",
+        "precision": 0.9588100686498856,
+        "recall": 0.9311111111111111,
+        "f1": 0.9447576099210823,
+        "support": 450
+      },
+      "2": {
+        "name": "Speed limit 50",
+        "precision": 0.8839103869653768,
+        "recall": 0.9644444444444444,
+        "f1": 0.922422954303932,
+        "support": 450
+      },
+      "4": {
+        "name": "Speed limit 70",
+        "precision": 0.9839142091152815,
+        "recall": 0.941025641025641,
+        "f1": 0.9619921363040629,
+        "support": 390
+      },
+      "9": {
+        "name": "No passing",
+        "precision": 0.9895104895104895,
+        "recall": 0.9433333333333334,
+        "f1": 0.9658703071672355,
+        "support": 300
+      },
+      "11": {
+        "name": "Right-of-way next junction",
+        "precision": 0.9846743295019157,
+        "recall": 0.9518518518518518,
+        "f1": 0.967984934086629,
+        "support": 270
+      },
+      "12": {
+        "name": "Priority road",
+        "precision": 0.9905660377358491,
+        "recall": 1.0,
+        "f1": 0.995260663507109,
+        "support": 420
+      },
+      "13": {
+        "name": "Yield",
+        "precision": 1.0,
+        "recall": 0.9977777777777778,
+        "f1": 0.9988876529477196,
+        "support": 450
+      },
+      "14": {
+        "name": "Stop",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 180
+      },
+      "17": {
+        "name": "No entry",
+        "precision": 1.0,
+        "recall": 0.9916666666666667,
+        "f1": 0.99581589958159,
+        "support": 240
+      },
+      "25": {
+        "name": "Road work",
+        "precision": 0.9580645161290322,
+        "recall": 0.99,
+        "f1": 0.9737704918032787,
+        "support": 300
+      },
+      "35": {
+        "name": "Ahead only",
+        "precision": 0.987603305785124,
+        "recall": 0.9958333333333333,
+        "f1": 0.991701244813278,
+        "support": 240
+      },
+      "38": {
+        "name": "Keep right",
+        "precision": 1.0,
+        "recall": 0.9974358974358974,
+        "f1": 0.9987163029525032,
+        "support": 390
+      }
+    },
+    "accuracy_without_threshold": 0.9735294117647059,
+    "inference_ms_per_image": 6.773850500176195
+  },
+  "hog_knn": {
+    "accuracy": 0.9553921568627451,
+    "unknown_rate": 0.015196078431372549,
+    "macro_precision": 0.977061608044958,
+    "macro_recall": 0.959281220322887,
+    "macro_f1": 0.9666476680578473,
+    "weighted_precision": 0.9731534377921819,
+    "weighted_recall": 0.9553921568627451,
+    "weighted_f1": 0.9623466681943573,
+    "per_class": {
+      "1": {
+        "name": "Speed limit 30",
+        "precision": 0.988950276243094,
+        "recall": 0.7955555555555556,
+        "f1": 0.8817733990147784,
+        "support": 450
+      },
+      "2": {
+        "name": "Speed limit 50",
+        "precision": 0.8435114503816794,
+        "recall": 0.9822222222222222,
+        "f1": 0.9075975359342916,
+        "support": 450
+      },
+      "4": {
+        "name": "Speed limit 70",
+        "precision": 0.9732620320855615,
+        "recall": 0.9333333333333333,
+        "f1": 0.9528795811518325,
+        "support": 390
+      },
+      "9": {
+        "name": "No passing",
+        "precision": 0.9928825622775801,
+        "recall": 0.93,
+        "f1": 0.9604130808950087,
+        "support": 300
+      },
+      "11": {
+        "name": "Right-of-way next junction",
+        "precision": 0.9806201550387597,
+        "recall": 0.937037037037037,
+        "f1": 0.9583333333333334,
+        "support": 270
+      },
+      "12": {
+        "name": "Priority road",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 420
+      },
+      "13": {
+        "name": "Yield",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 450
+      },
+      "14": {
+        "name": "Stop",
+        "precision": 1.0,
+        "recall": 0.9777777777777777,
+        "f1": 0.9887640449438202,
+        "support": 180
+      },
+      "17": {
+        "name": "No entry",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 240
+      },
+      "25": {
+        "name": "Road work",
+        "precision": 0.9455128205128205,
+        "recall": 0.9833333333333333,
+        "f1": 0.9640522875816994,
+        "support": 300
+      },
+      "35": {
+        "name": "Ahead only",
+        "precision": 1.0,
+        "recall": 0.9875,
+        "f1": 0.9937106918238994,
+        "support": 240
+      },
+      "38": {
+        "name": "Keep right",
+        "precision": 1.0,
+        "recall": 0.9846153846153847,
+        "f1": 0.9922480620155039,
+        "support": 390
+      }
+    },
+    "accuracy_without_threshold": 0.9615196078431373,
+    "inference_ms_per_image": 10.79272150003817
+  },
+  "hog_rf": {
+    "accuracy": 0.8884803921568627,
+    "unknown_rate": 0.10514705882352941,
+    "macro_precision": 0.9934751022230852,
+    "macro_recall": 0.8939797856464522,
+    "macro_f1": 0.9393034786339961,
+    "weighted_precision": 0.9931111981630298,
+    "weighted_recall": 0.8884803921568627,
+    "weighted_f1": 0.9358909503878512,
+    "per_class": {
+      "1": {
+        "name": "Speed limit 30",
+        "precision": 0.9971264367816092,
+        "recall": 0.7711111111111111,
+        "f1": 0.8696741854636592,
+        "support": 450
+      },
+      "2": {
+        "name": "Speed limit 50",
+        "precision": 0.9712793733681462,
+        "recall": 0.8266666666666667,
+        "f1": 0.8931572629051621,
+        "support": 450
+      },
+      "4": {
+        "name": "Speed limit 70",
+        "precision": 1.0,
+        "recall": 0.782051282051282,
+        "f1": 0.8776978417266187,
+        "support": 390
+      },
+      "9": {
+        "name": "No passing",
+        "precision": 1.0,
+        "recall": 0.8266666666666667,
+        "f1": 0.9051094890510949,
+        "support": 300
+      },
+      "11": {
+        "name": "Right-of-way next junction",
+        "precision": 0.9959183673469387,
+        "recall": 0.9037037037037037,
+        "f1": 0.9475728155339805,
+        "support": 270
+      },
+      "12": {
+        "name": "Priority road",
+        "precision": 1.0,
+        "recall": 0.9928571428571429,
+        "f1": 0.996415770609319,
+        "support": 420
+      },
+      "13": {
+        "name": "Yield",
+        "precision": 1.0,
+        "recall": 0.98,
+        "f1": 0.98989898989899,
+        "support": 450
+      },
+      "14": {
+        "name": "Stop",
+        "precision": 1.0,
+        "recall": 0.8944444444444445,
+        "f1": 0.9442815249266863,
+        "support": 180
+      },
+      "17": {
+        "name": "No entry",
+        "precision": 1.0,
+        "recall": 0.9833333333333333,
+        "f1": 0.9915966386554622,
+        "support": 240
+      },
+      "25": {
+        "name": "Road work",
+        "precision": 0.9573770491803278,
+        "recall": 0.9733333333333334,
+        "f1": 0.9652892561983472,
+        "support": 300
+      },
+      "35": {
+        "name": "Ahead only",
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1": 0.9565217391304348,
+        "support": 240
+      },
+      "38": {
+        "name": "Keep right",
+        "precision": 1.0,
+        "recall": 0.8769230769230769,
+        "f1": 0.9344262295081968,
+        "support": 390
+      }
+    },
+    "accuracy_without_threshold": 0.9678921568627451,
+    "inference_ms_per_image": 18.817307999997865
+  }
+}

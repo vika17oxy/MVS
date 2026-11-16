@@ -1,0 +1,12 @@
+# Virtual environment (recreate with: pip install -r requirements.txt)
+.venv/
+
+# GTSRB dataset (recreate with: python download_data.py)
+data/
+
+# Trained models, ~250 MB (recreate with: python train.py)
+models/
+
+# Python cache
+__pycache__/
+*.pyc

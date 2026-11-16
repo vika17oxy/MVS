@@ -1,0 +1,5 @@
+method,accuracy_without_threshold,accuracy,macro_precision,macro_recall,macro_f1,weighted_f1,unknown_rate,inference_ms_per_image
+Template Matching,0.8002,0.7789,0.8851,0.8016,0.8327,0.819,0.1,1.7148
+HOG + SVM,0.9735,0.9735,0.9781,0.9754,0.9764,0.9737,0.0,6.7739
+HOG + k-NN,0.9615,0.9554,0.9771,0.9593,0.9666,0.9623,0.0152,10.7927
+HOG + Random Forest,0.9679,0.8885,0.9935,0.894,0.9393,0.9359,0.1051,18.8173
