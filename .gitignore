@@ -10,3 +10,20 @@ models/
 # Python cache
 __pycache__/
 *.pyc
+
+# Local MVSR data, runs and model artifacts (existing GTSRB results stay tracked)
+artifacts/
+sample_dataset/
+dataset/
+heldout/
+results/
+*.joblib
+*.pkl
+*.npz
+*.zip
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+.env.*
+!.env.example
