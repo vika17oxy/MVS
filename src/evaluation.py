@@ -22,7 +22,8 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import LinearSegmentedColormap
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import (accuracy_score, classification_report,
+                             confusion_matrix)
 
 from src.classification import UNKNOWN
 from src.dataset import CLASS_NAMES
@@ -64,7 +65,8 @@ def compute_metrics(y_true, y_pred, class_ids) -> dict:
     for average in ("macro avg", "weighted avg"):
         prefix = average.split()[0]
         for metric in ("precision", "recall", "f1-score"):
-            metrics[f"{prefix}_{metric.replace('-score', '')}"] = report[average][metric]
+            key = f"{prefix}_{metric.replace('-score', '')}"
+            metrics[key] = report[average][metric]
     metrics["per_class"] = {
         class_id: {
             "name": CLASS_NAMES[class_id],
@@ -185,7 +187,8 @@ def plot_examples(images, y_true, y_pred, confidences, title: str, path,
     n_images = min(n_images, len(images))
     n_cols = 6
     n_rows = max(1, int(np.ceil(n_images / n_cols)))
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(n_cols * 2.1, n_rows * 3.0),
+    fig, axes = plt.subplots(n_rows, n_cols,
+                             figsize=(n_cols * 2.1, n_rows * 3.0),
                              facecolor=SURFACE, squeeze=False)
     for ax in axes.flat:
         ax.axis("off")

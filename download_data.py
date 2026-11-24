@@ -53,7 +53,8 @@ def download_with_resume() -> None:
                     mode = "ab"
                     # Header looks like "bytes 1000-9999/10000"; the number
                     # after "/" is the size of the complete file.
-                    total = int(response.headers["Content-Range"].split("/")[1])
+                    content_range = response.headers["Content-Range"]
+                    total = int(content_range.split("/")[1])
                 else:
                     mode = "wb"
                     total = int(response.headers["Content-Length"])
@@ -67,14 +68,16 @@ def download_with_resume() -> None:
                 return
             print(f"  attempt {attempt} ended early, resuming ...")
         except urllib.error.HTTPError as error:
-            # 416 = requested range starts at the end: file is already complete.
+            # 416 = requested range starts at the end, i.e. the file is
+            # already complete.
             if error.code == 416:
                 PART_PATH.rename(ZIP_PATH)
                 return
             raise
         except (urllib.error.URLError, http.client.HTTPException,
                 TimeoutError, ConnectionError) as error:
-            size_mb = PART_PATH.stat().st_size / 1e6 if PART_PATH.exists() else 0
+            size_mb = (PART_PATH.stat().st_size / 1e6
+                       if PART_PATH.exists() else 0)
             print(f"  attempt {attempt} interrupted at {size_mb:.0f} MB "
                   f"({error}), resuming ...")
     raise RuntimeError(f"Download failed after {MAX_ATTEMPTS} attempts.")

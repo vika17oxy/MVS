@@ -35,6 +35,15 @@ RANDOM_SEED = 42
 # 3 folds keep training time short while still averaging over several splits.
 CV_FOLDS = 3
 
+# Rare classes (see src/augmentation.py). A class needs at least CV_FOLDS
+# independent groups (tracks / source images); otherwise some CV training
+# fold contains no example of it, the SVM never learns it there and the
+# probability calibration fails. Such classes are filled up with augmented
+# copies to MIN_SAMPLES_PER_CLASS samples, so every one of the 3 validation
+# folds still gets 4 examples of the class and every training fold 8.
+MIN_GROUPS_PER_CLASS = CV_FOLDS
+MIN_SAMPLES_PER_CLASS = 4 * CV_FOLDS
+
 # Below these confidence values a prediction is reported as "unknown".
 # This is needed in the full pipeline, where the detector can also deliver
 # regions that are not traffic signs at all.

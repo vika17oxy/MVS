@@ -47,7 +47,8 @@ def save_examples(name: str, title: str, images, y_true, y_pred, confidences):
     ones, which would all show the same few tracks of the first class.
     """
     rng = np.random.default_rng(config.RANDOM_SEED)
-    for kind, mask in (("correct", y_pred == y_true), ("wrong", y_pred != y_true)):
+    for kind, mask in (("correct", y_pred == y_true),
+                       ("wrong", y_pred != y_true)):
         indices = np.flatnonzero(mask)
         chosen = rng.choice(indices, size=min(12, len(indices)), replace=False)
         plot_examples(images[chosen], y_true[chosen], y_pred[chosen],
@@ -60,7 +61,8 @@ def write_per_class_csv(name: str, metrics: dict) -> None:
     path = config.RESULTS_DIR / f"per_class_{name}.csv"
     with open(path, "w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["class_id", "name", "precision", "recall", "f1", "support"])
+        writer.writerow(["class_id", "name", "precision", "recall", "f1",
+                         "support"])
         for class_id, row in metrics["per_class"].items():
             writer.writerow([class_id, row["name"], f"{row['precision']:.4f}",
                              f"{row['recall']:.4f}", f"{row['f1']:.4f}",
@@ -80,7 +82,8 @@ def main() -> None:
     for name, title in MODELS.items():
         model_path = config.MODELS_DIR / f"{name}.joblib"
         if not model_path.is_file():
-            raise FileNotFoundError(f"{model_path} missing - run 'python train.py' first.")
+            raise FileNotFoundError(
+                f"{model_path} missing - run 'python train.py' first.")
         classifier = SignClassifier.load(model_path)
 
         print(f"Evaluating {title} ...")
@@ -92,13 +95,16 @@ def main() -> None:
                                                        apply_threshold=False)
         y_pred = np.where(confidences >= classifier.threshold, y_best, UNKNOWN)
         metrics = compute_metrics(test_labels, y_pred, config.CLASS_IDS)
-        metrics["accuracy_without_threshold"] = float(np.mean(y_best == test_labels))
-        metrics["inference_ms_per_image"] = measure_inference_time(classifier, test_images)
+        metrics["accuracy_without_threshold"] = float(
+            np.mean(y_best == test_labels))
+        metrics["inference_ms_per_image"] = measure_inference_time(
+            classifier, test_images)
         all_metrics[name] = metrics
 
         comparison.append({
             "method": title,
-            "accuracy_without_threshold": metrics["accuracy_without_threshold"],
+            "accuracy_without_threshold":
+                metrics["accuracy_without_threshold"],
             "accuracy": metrics["accuracy"],
             "macro_precision": metrics["macro_precision"],
             "macro_recall": metrics["macro_recall"],
@@ -109,12 +115,15 @@ def main() -> None:
         })
         print(f"  accuracy {metrics['accuracy']:.4f} (without threshold "
               f"{metrics['accuracy_without_threshold']:.4f}), macro F1 "
-              f"{metrics['macro_f1']:.4f}, {metrics['inference_ms_per_image']:.2f} ms/image")
+              f"{metrics['macro_f1']:.4f}, "
+              f"{metrics['inference_ms_per_image']:.2f} ms/image")
 
         write_per_class_csv(name, metrics)
-        plot_confusion_matrix(test_labels, y_pred, config.CLASS_IDS, title,
-                              config.RESULTS_DIR / f"confusion_matrix_{name}.png")
-        save_examples(name, title, test_images, test_labels, y_pred, confidences)
+        plot_confusion_matrix(
+            test_labels, y_pred, config.CLASS_IDS, title,
+            config.RESULTS_DIR / f"confusion_matrix_{name}.png")
+        save_examples(name, title, test_images, test_labels, y_pred,
+                      confidences)
 
     plot_f1_comparison(all_metrics[BASELINE], all_metrics[MAIN_METHOD],
                        [MODELS[BASELINE], MODELS[MAIN_METHOD]],
@@ -125,18 +134,22 @@ def main() -> None:
         writer.writeheader()
         # Round for readability; four decimals are more than the test set
         # size (~4000 images) can resolve anyway.
-        writer.writerows({key: round(value, 4) if isinstance(value, float) else value
-                          for key, value in row.items()} for row in comparison)
+        writer.writerows(
+            {key: round(value, 4) if isinstance(value, float) else value
+             for key, value in row.items()}
+            for row in comparison)
     with open(config.RESULTS_DIR / "metrics.json", "w") as file:
         json.dump(all_metrics, file, indent=2)
 
-    # Print the comparison table so the result is visible without opening files.
-    print(f"\n{'method':<22}{'acc (no thr.)':>14}{'accuracy':>10}{'macro F1':>10}"
-          f"{'unknown':>9}{'ms/img':>8}")
+    # Print the comparison table so the result is visible without opening
+    # any file.
+    print(f"\n{'method':<22}{'acc (no thr.)':>14}{'accuracy':>10}"
+          f"{'macro F1':>10}{'unknown':>9}{'ms/img':>8}")
     for row in comparison:
         print(f"{row['method']:<22}{row['accuracy_without_threshold']:>14.4f}"
               f"{row['accuracy']:>10.4f}{row['macro_f1']:>10.4f}"
-              f"{row['unknown_rate']:>9.3f}{row['inference_ms_per_image']:>8.2f}")
+              f"{row['unknown_rate']:>9.3f}"
+              f"{row['inference_ms_per_image']:>8.2f}")
     print(f"\nAll results written to {config.RESULTS_DIR}")
 
 

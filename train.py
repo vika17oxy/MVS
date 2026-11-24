@@ -67,7 +67,8 @@ def main() -> None:
         writer = csv.DictWriter(file, fieldnames=cv_rows[0].keys())
         writer.writeheader()
         writer.writerows(cv_rows)
-    print(f"Models saved to {config.MODELS_DIR}, reports to {config.RESULTS_DIR}")
+    print(f"Models saved to {config.MODELS_DIR}, "
+          f"reports to {config.RESULTS_DIR}")
 
 
 if __name__ == "__main__":

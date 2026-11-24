@@ -26,6 +26,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 
 from src import config
+from src.augmentation import oversample_rare_classes
 from src.dataset import resize_roi
 from src.features import extract_features
 
@@ -59,7 +60,10 @@ class SignClassifier(ABC):
 
     @abstractmethod
     def _scores(self, images) -> np.ndarray:
-        """Return an ``(N, n_classes)`` array of class scores (higher = better)."""
+        """Return an ``(N, n_classes)`` array of class scores.
+
+        A higher score means a better match.
+        """
 
     def predict_batch(self, images, apply_threshold: bool = True):
         """Classify many images at once.
@@ -84,12 +88,20 @@ class SignClassifier(ABC):
         return class_ids, confidences
 
     def predict(self, roi_bgr):
-        """Classify one cropped sign (BGR, any size) -> ``(class_id, confidence)``."""
+        """Classify one cropped sign (BGR, any size).
+
+        Returns:
+            ``(class_id, confidence)``; ``class_id`` is ``UNKNOWN`` when the
+            confidence is below the threshold.
+        """
         class_ids, confidences = self.predict_batch([roi_bgr])
         return int(class_ids[0]), float(confidences[0])
 
     def save(self, path) -> None:
-        """Store the trained classifier in a file (joblib = pickle for NumPy)."""
+        """Store the trained classifier in a file.
+
+        joblib is pickle with efficient storage of large NumPy arrays.
+        """
         joblib.dump(self, path)
 
     @staticmethod
@@ -158,7 +170,8 @@ class TemplateMatchingClassifier(SignClassifier):
             for j, template in enumerate(self.templates_):
                 # The result map holds the coefficient for every template
                 # position; its maximum is the best alignment.
-                result = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
+                result = cv2.matchTemplate(image, template,
+                                           cv2.TM_CCOEFF_NORMED)
                 scores[i, j] = result.max()
         return scores
 
@@ -197,16 +210,20 @@ class FeatureClassifier(SignClassifier):
     ``fit`` runs a grid search with cross-validation on the training data
     only, for both feature variants (HOG alone and HOG + colour histogram),
     and keeps the best combination. The test set is never touched here.
+    Classes with too few examples for the cross-validation are filled up by
+    augmentation first (see src/augmentation.py).
     """
 
     def __init__(self, model: str = "svm",
                  threshold: float = config.ML_UNKNOWN_THRESHOLD):
         super().__init__(threshold)
         self.model = model
-        # Set by fit(): chosen feature variant, trained model, search log.
+        # Set by fit(): chosen feature variant, trained model, search log
+        # and the classes that had to be augmented (for the reports).
         self.use_color_ = None
         self.estimator_ = None
         self.cv_results_ = []
+        self.rare_classes_ = []
 
     def _cv_splits(self, labels, groups):
         """Fixed list of cross-validation folds, reused by every search.
@@ -224,10 +241,31 @@ class FeatureClassifier(SignClassifier):
                                         random_state=config.RANDOM_SEED)
         return list(splitter.split(dummy_x, labels, groups))
 
+    @staticmethod
+    def _check_folds(labels, splits) -> None:
+        """Stop with a clear message if a CV training fold lacks a class.
+
+        Without this check, scikit-learn would only warn, the SVM would
+        silently never learn that class in the fold, and the calibrated
+        probabilities of the class would be meaningless.
+        """
+        all_classes = set(np.unique(labels))
+        for train_idx, _ in splits:
+            missing = all_classes - set(np.unique(labels[train_idx]))
+            if missing:
+                raise ValueError(
+                    f"Classes {sorted(map(int, missing))} are missing from a "
+                    "CV training fold. Increase MIN_GROUPS_PER_CLASS or "
+                    "MIN_SAMPLES_PER_CLASS in src/config.py.")
+
     def fit(self, images, labels, groups=None) -> None:
-        """Select features + hyper-parameters by CV, then train the final model."""
-        labels = np.asarray(labels)
+        """Choose features and hyper-parameters by CV, then train the model."""
+        # Rare classes get augmented copies and ungrouped samples, so that
+        # every class occurs in every CV fold (unchanged if none is rare).
+        images, labels, groups, self.rare_classes_ = oversample_rare_classes(
+            images, labels, groups)
         splits = self._cv_splits(labels, groups)
+        self._check_folds(labels, splits)
         estimator, param_grid = MODELS[self.model]
 
         best_search, best_features = None, None
@@ -238,7 +276,8 @@ class FeatureClassifier(SignClassifier):
                                   n_jobs=-1)
             search.fit(features, labels)
             self._log_search(search, use_color)
-            if best_search is None or search.best_score_ > best_search.best_score_:
+            if (best_search is None
+                    or search.best_score_ > best_search.best_score_):
                 best_search, best_features = search, features
                 self.use_color_ = use_color
 

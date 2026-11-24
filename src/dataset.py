@@ -54,7 +54,8 @@ def read_image(path: Path) -> np.ndarray:
     return image
 
 
-def resize_roi(roi_bgr: np.ndarray, size: int = config.IMAGE_SIZE) -> np.ndarray:
+def resize_roi(roi_bgr: np.ndarray,
+               size: int = config.IMAGE_SIZE) -> np.ndarray:
     """Scale a sign crop of any size to ``size`` x ``size`` pixels.
 
     ``INTER_AREA`` averages pixels when shrinking, which avoids aliasing;
@@ -114,7 +115,8 @@ def load_gtsrb(class_ids=config.CLASS_IDS, root: Path = config.DATA_DIR,
 
     if not root.is_dir():
         raise FileNotFoundError(
-            f"Dataset not found in {root}. Run 'python download_data.py' first.")
+            f"Dataset not found in {root}. "
+            "Run 'python download_data.py' first.")
 
     all_images, all_labels, all_tracks = [], [], []
     for class_id in class_ids:
